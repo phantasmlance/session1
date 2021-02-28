@@ -17,15 +17,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".HistoryActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".screens.history.HistoryActivity"
+            android:parentActivityName=".screens.main.MainActivity" />
         <activity
-            android:name=".TransferActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".screens.transfer.TransferActivity"
+            android:parentActivityName=".screens.main.MainActivity" />
         <activity
-            android:name=".InfoActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+            android:name=".screens.info.InfoActivity"
+            android:parentActivityName=".screens.main.MainActivity" />
+        <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.session1;
+package com.example.session1.screens.info;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.session1.R;
 import com.example.session1.models.AccountableParty;
 import com.example.session1.models.AssetGroups;
 import com.example.session1.models.AssetPhotos;
@@ -290,21 +291,21 @@ public class InfoActivity extends AppCompatActivity {
 
     private void GetLocations() {
 
-        Call<List<Locations>> call = client.getLocations();
-        call.enqueue(new Callback<List<Locations>>() {
-            @Override
-            public void onResponse(Call<List<Locations>> call, Response<List<Locations>> response) {
-                ArrayList<Locations> locationsArrayList = (ArrayList<Locations>) response.body();
-                assert locationsArrayList != null;
-                final ArrayAdapter<Locations> adapter = new ArrayAdapter<>(InfoActivity.this,
-                        android.R.layout.simple_spinner_dropdown_item, locationsArrayList);
-                spinnerLocation.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Locations>> call, Throwable t) {
-            }
-        });
+//        Call<List<Locations>> call = client.getLocations();
+//        call.enqueue(new Callback<List<Locations>>() {
+//            @Override
+//            public void onResponse(Call<List<Locations>> call, Response<List<Locations>> response) {
+//                ArrayList<Locations> locationsArrayList = (ArrayList<Locations>) response.body();
+//                assert locationsArrayList != null;
+//                final ArrayAdapter<Locations> adapter = new ArrayAdapter<>(InfoActivity.this,
+//                        android.R.layout.simple_spinner_dropdown_item, locationsArrayList);
+//                spinnerLocation.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Locations>> call, Throwable t) {
+//            }
+//        });
     }
 
     private void GetAssetGroups() {
@@ -332,21 +333,21 @@ public class InfoActivity extends AppCompatActivity {
 
     private void GetAccountableParty() {
 
-        Call<List<AccountableParty>> call = client.getAccountableParty();
-        call.enqueue(new Callback<List<AccountableParty>>() {
-            @Override
-            public void onResponse(Call<List<AccountableParty>> call, Response<List<AccountableParty>> response) {
-                ArrayList<AccountableParty> accountablePartyArrayList = (ArrayList<AccountableParty>) response.body();
-                assert accountablePartyArrayList != null;
-                final ArrayAdapter<AccountableParty> adapter = new ArrayAdapter<>(InfoActivity.this,
-                        android.R.layout.simple_spinner_dropdown_item, accountablePartyArrayList);
-                spinnerAccountableParty.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<AccountableParty>> call, Throwable t) {
-            }
-        });
+//        Call<List<AccountableParty>> call = client.getAccountableParty();
+//        call.enqueue(new Callback<List<AccountableParty>>() {
+//            @Override
+//            public void onResponse(Call<List<AccountableParty>> call, Response<List<AccountableParty>> response) {
+//                ArrayList<AccountableParty> accountablePartyArrayList = (ArrayList<AccountableParty>) response.body();
+//                assert accountablePartyArrayList != null;
+//                final ArrayAdapter<AccountableParty> adapter = new ArrayAdapter<>(InfoActivity.this,
+//                        android.R.layout.simple_spinner_dropdown_item, accountablePartyArrayList);
+//                spinnerAccountableParty.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<AccountableParty>> call, Throwable t) {
+//            }
+//        });
     }
 
     // Add asset

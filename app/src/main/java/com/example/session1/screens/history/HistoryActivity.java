@@ -1,4 +1,4 @@
-package com.example.session1;
+package com.example.session1.screens.history;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.session1.R;
 import com.example.session1.models.AssetTransferLogs;
 import com.example.session1.services.APIUtilities;
 import com.example.session1.services.IDataClient;
@@ -42,7 +43,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         buttonBack.setOnClickListener(v -> onBackPressed());
 
-        GetTransferHistory();
+        //GetTransferHistory();
     }
 
     private void Mapping() {
@@ -50,23 +51,23 @@ public class HistoryActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.buttonBack);
     }
 
-    private void GetTransferHistory() {
-        IDataClient client = APIUtilities.getData();
-        Call<List<AssetTransferLogs>> call = client.getAssetTransferLogs();
-        call.enqueue(new Callback<List<AssetTransferLogs>>() {
-            @Override
-            public void onResponse(Call<List<AssetTransferLogs>> call, Response<List<AssetTransferLogs>> response) {
-                ArrayList<AssetTransferLogs> assetTransferLogsArrayList = (ArrayList<AssetTransferLogs>) response.body();
-                final TransferHistoryAdapter adapter = new TransferHistoryAdapter(HistoryActivity.this, R.layout.history_layout, assetTransferLogsArrayList);
-                listViewHistory.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<AssetTransferLogs>> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void GetTransferHistory() {
+//        IDataClient client = APIUtilities.getData();
+//        Call<List<AssetTransferLogs>> call = client.getAssetTransferLogs();
+//        call.enqueue(new Callback<List<AssetTransferLogs>>() {
+//            @Override
+//            public void onResponse(Call<List<AssetTransferLogs>> call, Response<List<AssetTransferLogs>> response) {
+//                ArrayList<AssetTransferLogs> assetTransferLogsArrayList = (ArrayList<AssetTransferLogs>) response.body();
+//                final TransferHistoryAdapter adapter = new TransferHistoryAdapter(HistoryActivity.this, R.layout.history_layout, assetTransferLogsArrayList);
+//                listViewHistory.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<AssetTransferLogs>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
     // Custom adapter for ListView
     public static class TransferHistoryAdapter extends BaseAdapter {

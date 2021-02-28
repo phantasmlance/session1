@@ -1,13 +1,8 @@
 package com.example.session1.services;
 
 import com.example.session1.constants.AppConstants;
-import com.example.session1.models.AccountableParty;
-import com.example.session1.models.AssetCatalogues;
 import com.example.session1.models.AssetGroups;
-import com.example.session1.models.AssetTransferLogs;
-import com.example.session1.models.DepartmentLocations;
 import com.example.session1.models.Departments;
-import com.example.session1.models.Locations;
 
 import java.util.List;
 
@@ -18,14 +13,13 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Query;
 
 public interface IDataClient {
 
-    @GET("get/getDepartments.php")
+    @GET(AppConstants.API_DEPARTMENTS_READ)
     Call<List<Departments>> getDepartments();
 
-    @GET(AppConstants.API_READ_ASSETGROUPS)
+    @GET(AppConstants.API_ASSETGROUPS_READ)
     Call<List<AssetGroups>> getAssetGroups();
 
 //    @GET("get/getAssetCatalogues.php")

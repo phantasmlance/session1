@@ -1,4 +1,4 @@
-package com.example.session1;
+package com.example.session1.screens.transfer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.session1.R;
 import com.example.session1.models.Departments;
 import com.example.session1.models.Locations;
 import com.example.session1.services.APIUtilities;
@@ -40,7 +41,7 @@ public class TransferActivity extends AppCompatActivity {
         Mapping();
 
         GetDepartments();
-        GetLocations();
+        //GetLocations();
 
         Intent intent = getIntent();
 
@@ -90,23 +91,23 @@ public class TransferActivity extends AppCompatActivity {
         });
     }
 
-    private void GetLocations() {
-
-        IDataClient client = APIUtilities.getData();
-        Call<List<Locations>> call = client.getLocations();
-        call.enqueue(new Callback<List<Locations>>() {
-            @Override
-            public void onResponse(Call<List<Locations>> call, Response<List<Locations>> response) {
-                ArrayList<Locations> locationsArrayList = (ArrayList<Locations>) response.body();
-                assert locationsArrayList != null;
-                final ArrayAdapter<Locations> adapter = new ArrayAdapter<>(TransferActivity.this,
-                        android.R.layout.simple_spinner_dropdown_item, locationsArrayList);
-                spinnerDesLocation.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Locations>> call, Throwable t) {
-            }
-        });
-    }
+//    private void GetLocations() {
+//
+//        IDataClient client = APIUtilities.getData();
+//        Call<List<Locations>> call = client.getLocations();
+//        call.enqueue(new Callback<List<Locations>>() {
+//            @Override
+//            public void onResponse(Call<List<Locations>> call, Response<List<Locations>> response) {
+//                ArrayList<Locations> locationsArrayList = (ArrayList<Locations>) response.body();
+//                assert locationsArrayList != null;
+//                final ArrayAdapter<Locations> adapter = new ArrayAdapter<>(TransferActivity.this,
+//                        android.R.layout.simple_spinner_dropdown_item, locationsArrayList);
+//                spinnerDesLocation.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Locations>> call, Throwable t) {
+//            }
+//        });
+//    }
 }
