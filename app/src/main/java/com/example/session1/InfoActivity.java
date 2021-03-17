@@ -1,4 +1,4 @@
-package com.example.session1.screens.info;
+package com.example.session1;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,14 +33,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.session1.R;
-import com.example.session1.models.AccountableParty;
 import com.example.session1.models.AssetGroups;
 import com.example.session1.models.AssetPhotos;
 import com.example.session1.models.Departments;
 import com.example.session1.models.Locations;
 import com.example.session1.services.APIUtilities;
-import com.example.session1.services.IDataClient;
+import com.example.session1.services.IWebservice;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -57,7 +55,7 @@ import retrofit2.Response;
 
 public class InfoActivity extends AppCompatActivity {
 
-    public IDataClient client = APIUtilities.getData();
+    public IWebservice client = APIUtilities.getData();
 
     EditText textAssetName, textDescription, textWarranty;
     Spinner spinnerDepartment, spinnerLocation, spinnerAssetGroup, spinnerAccountableParty;
@@ -367,7 +365,7 @@ public class InfoActivity extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("uploaded_file", file_path, requestBody);
 
-        IDataClient dataClient = APIUtilities.getData();
+        IWebservice dataClient = APIUtilities.getData();
         Call<String> call = dataClient.uploadAssetPhoto(part);
         call.enqueue(new Callback<String>() {
             @Override
@@ -375,7 +373,7 @@ public class InfoActivity extends AppCompatActivity {
                 String message = response.body();
                 assert message != null;
                 if (message.length() > 0) {
-                    IDataClient insertData = APIUtilities.getData();
+                    IWebservice insertData = APIUtilities.getData();
                     retrofit2.Call<String> callBack = insertData.setAssetPhotos(
                             1, APIUtilities.baseUrl + "images/" + message
                     );

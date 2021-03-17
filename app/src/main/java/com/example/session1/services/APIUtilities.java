@@ -6,7 +6,7 @@ public class APIUtilities {
 
     public static final String baseUrl = AppConstants.API_HOME;
 
-    public static IDataClient getData() {
-        return RetrofitConfig.getClient().create(IDataClient.class);
+    public static IWebservice getData() {
+        return RetrofitConfig.getClient().create(IWebservice.class);
     }
 }

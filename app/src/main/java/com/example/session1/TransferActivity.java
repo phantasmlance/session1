@@ -1,4 +1,4 @@
-package com.example.session1.screens.transfer;
+package com.example.session1;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,9 @@ import android.widget.Spinner;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.session1.R;
 import com.example.session1.models.Departments;
-import com.example.session1.models.Locations;
 import com.example.session1.services.APIUtilities;
-import com.example.session1.services.IDataClient;
+import com.example.session1.services.IWebservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +71,7 @@ public class TransferActivity extends AppCompatActivity {
 
     private void GetDepartments() {
 
-        IDataClient client = APIUtilities.getData();
+        IWebservice client = APIUtilities.getData();
         Call<List<Departments>> call = client.getDepartments();
         call.enqueue(new Callback<List<Departments>>() {
             @Override

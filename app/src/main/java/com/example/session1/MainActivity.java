@@ -1,4 +1,4 @@
-package com.example.session1.screens.main;
+package com.example.session1;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -7,23 +7,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.session1.screens.info.InfoActivity;
-import com.example.session1.R;
+import com.example.session1.adapters.MainAdapter;
+import com.example.session1.models.AssetCatalogues;
 import com.example.session1.models.AssetGroups;
 import com.example.session1.models.Departments;
 import com.example.session1.services.APIUtilities;
-import com.example.session1.services.IDataClient;
+import com.example.session1.services.IWebservice;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    IDataClient client = APIUtilities.getData();
+    IWebservice client = APIUtilities.getData();
 
     Spinner spinnerDepartment, spinnerAssetGroup;
     EditText textStartDate, textEndDate;
@@ -61,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         Mapping();
 
-        GetDepartments();
+        getDepartments();
 
-        GetAssetGroups();
+        getAssetGroups();
 
         //GetAssetCatalogues();
 
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                //SearchAssets();
+                searchAssets();
             }
         });
 
@@ -129,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
         buttonAdd = findViewById(R.id.buttonAdd);
     }
 
-    private void GetDepartments() {
-
+    private void getDepartments() {
         Call<List<Departments>> call = client.getDepartments();
         call.enqueue(new Callback<List<Departments>>() {
             @Override
@@ -140,16 +141,20 @@ public class MainActivity extends AppCompatActivity {
                 final ArrayAdapter<Departments> adapterDepartments = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_spinner_dropdown_item, departmentsArrayList);
                 spinnerDepartment.setAdapter(adapterDepartments);
+
+                Log.d("AAA", String.valueOf(response));
             }
 
             @Override
             public void onFailure(Call<List<Departments>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Something went wrong :(", Toast.LENGTH_SHORT).show();
+                Log.d("AAA", String.valueOf(call));
+                Log.d("AAA", String.valueOf(t.getMessage()));
             }
         });
     }
 
-    private void GetAssetGroups() {
-
+    private void getAssetGroups() {
         Call<List<AssetGroups>> call = client.getAssetGroups();
         call.enqueue(new Callback<List<AssetGroups>>() {
             @Override
@@ -163,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<AssetGroups>> call, Throwable t) {
+
             }
         });
     }
@@ -197,118 +203,28 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-//
-//    private void SearchAssets() {
-//
-//        Call<List<AssetCatalogues>> call = client.getSearch(textSearch.getText().toString());
-//        call.enqueue(new Callback<List<AssetCatalogues>>() {
-//            @Override
-//            public void onResponse(Call<List<AssetCatalogues>> call, Response<List<AssetCatalogues>> response) {
-//                if (!response.isSuccessful()) {
-//                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                ArrayList<AssetCatalogues> cataloguesArrayList = (ArrayList<AssetCatalogues>) response.body();
-//                final AssetListAdapter adapter = new AssetListAdapter(MainActivity.this,
-//                        R.layout.item_layout, cataloguesArrayList);
-//                listViewAsset.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<AssetCatalogues>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    // Custom adapter for ListView
-//    public class AssetListAdapter extends BaseAdapter {
-//
-//        private Context context;
-//        private int layout;
-//        private List<AssetCatalogues> list;
-//
-//        public AssetListAdapter(Context context, int layout, List<AssetCatalogues> list) {
-//            this.context = context;
-//            this.layout = layout;
-//            this.list = list;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return list.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return list.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder = new ViewHolder();
-//
-//            if (convertView == null) {
-//                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                assert inflater != null;
-//                convertView = inflater.inflate(layout, null);
-//                holder.imgAsset = convertView.findViewById(R.id.imageViewAsset);
-//                holder.textAssetName = convertView.findViewById(R.id.textViewAssetName);
-//                holder.textDepartmentName = convertView.findViewById(R.id.textViewDepartmentName);
-//                holder.textAssetSN = convertView.findViewById(R.id.textViewAssetSN);
-//                holder.buttonEdit = convertView.findViewById(R.id.imageButtonEdit);
-//                holder.buttonTransfer = convertView.findViewById(R.id.imageButtonTransfer);
-//                holder.buttonHistory = convertView.findViewById(R.id.imageButtonHistory);
-//
-//                ViewHolder finalHolder = holder;
-//
-//                holder.buttonEdit.setOnClickListener(v -> {
-//                    Intent intent = new Intent(MainActivity.this, InfoActivity.class);
-//                    intent.putExtra("data", finalHolder.textAssetName.getText());
-//                    startActivity(intent);
-//                });
-//
-//                holder.buttonTransfer.setOnClickListener(v -> {
-//                    Intent intent = new Intent(MainActivity.this, TransferActivity.class);
-//                    intent.putExtra("data0", finalHolder.textAssetName.getText());
-//                    intent.putExtra("data1", finalHolder.textDepartmentName.getText());
-//                    intent.putExtra("data2", finalHolder.textAssetSN.getText());
-//                    startActivity(intent);
-//                });
-//
-//                holder.buttonHistory.setOnClickListener(v -> {
-//                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-//                    startActivity(intent);
-//                });
-//
-//                convertView.setTag(holder);
-//            } else {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//
-//            final AssetCatalogues ac = list.get(position);
-//            if (ac.getAssetphoto() != null) {
-//                holder.imgAsset.setImageBitmap(ac.getAssetphoto());
-//            } else {
-//                holder.imgAsset.setImageResource(R.drawable.image_layout);
-//            }
-//            holder.textAssetName.setText(ac.getAssetname());
-//            holder.textDepartmentName.setText(ac.getDepartmentname());
-//            holder.textAssetSN.setText(ac.getAssetsn());
-//
-//            return convertView;
-//        }
-//
-//        public class ViewHolder {
-//            ImageView imgAsset;
-//            TextView textAssetName, textDepartmentName, textAssetSN;
-//            ImageButton buttonEdit, buttonTransfer, buttonHistory;
-//        }
-//    }
+
+    private void searchAssets() {
+        Call<List<AssetCatalogues>> call = client.getSearch(textSearch.getText().toString());
+        call.enqueue(new Callback<List<AssetCatalogues>>() {
+            @Override
+            public void onResponse(Call<List<AssetCatalogues>> call, Response<List<AssetCatalogues>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ArrayList<AssetCatalogues> cataloguesArrayList = (ArrayList<AssetCatalogues>) response.body();
+                final MainAdapter adapter = new MainAdapter(MainActivity.this,
+                        R.layout.item_layout, cataloguesArrayList);
+                listViewAsset.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<AssetCatalogues>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

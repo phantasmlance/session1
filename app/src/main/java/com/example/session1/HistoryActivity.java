@@ -1,4 +1,4 @@
-package com.example.session1.screens.history;
+package com.example.session1;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,17 +13,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.session1.R;
 import com.example.session1.models.AssetTransferLogs;
-import com.example.session1.services.APIUtilities;
-import com.example.session1.services.IDataClient;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HistoryActivity extends AppCompatActivity {
     ListView listViewHistory;

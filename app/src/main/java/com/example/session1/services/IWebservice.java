@@ -1,6 +1,7 @@
 package com.example.session1.services;
 
 import com.example.session1.constants.AppConstants;
+import com.example.session1.models.AssetCatalogues;
 import com.example.session1.models.AssetGroups;
 import com.example.session1.models.Departments;
 
@@ -13,8 +14,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
-public interface IDataClient {
+public interface IWebservice {
 
     @GET(AppConstants.API_DEPARTMENTS_READ)
     Call<List<Departments>> getDepartments();
@@ -34,9 +36,6 @@ public interface IDataClient {
 //    @GET("get/getAssetTransferLogs.php")
 //    Call<List<AssetTransferLogs>> getAssetTransferLogs();
 //
-//    @GET("search.php")
-//    Call<List<AssetCatalogues>> getSearch(@Query("assetname") String assetname);
-//
 //    @GET("get/getDepartmentLocationID.php")
 //    Call<List<DepartmentLocations>> getDepartmentLocationID(@Query("departmentid") long departmentid,
 //                                                            @Query("locationid") long locationid);
@@ -50,6 +49,9 @@ public interface IDataClient {
 //                                                   @Field("assetgroupid") long agid,
 //                                                   @Field("description") String description,
 //                                                   @Field("warrantydate") String warrantydate);
+
+    @GET("search.php")
+    Call<List<AssetCatalogues>> getSearch(@Query("assetname") String assetname);
 
     @FormUrlEncoded
     @POST("uploadimage.php")
